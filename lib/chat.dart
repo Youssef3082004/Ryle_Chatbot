@@ -14,8 +14,6 @@ class _ChatScreenState extends State<ChatScreen2>  {
   final TextEditingController _uservalue = TextEditingController();
   List<String> _messages = [];
 
-  String name = "Ryla Tour Guide";
-
 
   @override
   void initState() {
@@ -39,8 +37,7 @@ class _ChatScreenState extends State<ChatScreen2>  {
     
     //! =================================================================== Appbar ==================================================
     IconButton h = IconButton(onPressed: () => Navigator.pop(context),icon: Icon(Icons.arrow_back,size: 30,color: Color(0xffa3502b)));
-    AppBar appbar =  AppBar(actions: [Image.asset("assets/images/icon.png",width: 80,height: 80,)],leading: h,elevation: 0,backgroundColor: Colors.transparent,title: Text("Your tour guide",style: TextStyle(fontSize: 40,color: Color(0xffa3502b))),centerTitle: false,shape: Border(bottom: BorderSide(color: Color(0xffa3502b),  width:3.0)));
-
+    AppBar appbar =  AppBar(actions: [Image.asset("assets/images/icon.png",width: 80,height: 80,)],leading: h,elevation: 0,backgroundColor: const Color(0xffe7c8ad),title: Text("Your tour guide",style: TextStyle(fontSize: 40,color: Color(0xffa3502b))),centerTitle: false,shape: Border(bottom: BorderSide(color: Color(0xffa3502b),  width:3.0)));
 
     //! =================================================================== Bottuns ==================================================
     // IconButton add_button =  IconButton(onPressed: () {},icon: const Icon(Icons.add_box_outlined, size: 40),color: const Color(0xFF77573E),);
@@ -48,8 +45,7 @@ class _ChatScreenState extends State<ChatScreen2>  {
     IconButton send_button =  IconButton(onPressed: () => Add_messages(),icon: const Icon(Icons.send_rounded, size: 22),color: Colors.white,);
     Container hala = Container(child: send_button,decoration: BoxDecoration(color: Color(0xFF77573E),borderRadius: BorderRadius.circular(180)),);
 
-
-    //! =================================================================== Bottuns ==================================================
+    //! =================================================================== Textfeild and Button ==================================================
 
     TextField feild = TextField(controller: _uservalue,
     decoration: const InputDecoration(fillColor: Color(0xfff8ede2),filled: true,hintText: 'Type your message...',
@@ -57,42 +53,22 @@ class _ChatScreenState extends State<ChatScreen2>  {
     border: OutlineInputBorder(borderRadius:BorderRadius.all(Radius.circular(12.0)),borderSide: BorderSide(color: Color(0xFF77573E),width: 2.0) )),
     );
 
-
-    
-
-
-
-
-    Expanded messages = Expanded(
-  child: ListView.builder(
-    reverse: true, // newest message at bottom
-    // padding: const EdgeInsets.all(10),
-    itemCount: _messages.length,
-    itemBuilder: (context, index) {
-      final msg = _messages[_messages.length - 1 - index];
-      Text Mess = Text(msg,style: TextStyle(color: Colors.black, fontSize: 20,fontWeight: FontWeight.w800),);
-      Container c = Container(padding: EdgeInsets.all(10),margin: EdgeInsets.only(left: 2),child: Mess,decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.all(Radius.circular(15))));
-      Icon person_icon = Icon(Icons.person_pin_outlined,color: const Color(0xff77573d),size: 40,); 
-      return Row(children: [c,person_icon],mainAxisAlignment: MainAxisAlignment.end,spacing: 5,);
-      
-    },
-  ),
-);
-
-    
-    //! ============================================================= Textfeild in application ================================
-
     Row feild_controls = Row(children: [Expanded(child: feild),hala],spacing: 8);
 
-    Expanded text = Expanded(child: Center(child: Text(name,style: TextStyle(fontSize: 25,color: Colors.black,fontFamily: 'AGaramondPro',fontWeight: FontWeight.bold,),),),);
 
+    //! ============================================================= Messages Control ================================
+    ListView messages = ListView.builder(itemCount: _messages.length,itemBuilder: (context , index) => Messages_query(context, index));
 
-    // Column Messages = Column(children: [text],crossAxisAlignment: CrossAxisAlignment.start);
-    Column controls = Column(children: [messages,text,feild_controls],mainAxisAlignment: MainAxisAlignment.center);
-    BoxDecoration decoration = BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/final2.png'),fit: BoxFit.cover,),);
-    Container main_app = Container(decoration: decoration,child:controls ,padding: EdgeInsets.only(left:5, bottom:20, right:5),);
+    //! ============================================================= Middle Text ================================
+    Text text =  Text("Ryla Tour Guide",style: TextStyle(fontSize: 25,color: Colors.black,fontFamily: 'AGaramondPro',fontWeight: FontWeight.bold,));
 
-    return Scaffold(body: main_app,appBar: appbar,extendBodyBehindAppBar: true);
+    //! ============================================================= Application Arc ================================
+
+    Column controls = Column(children: _messages.isEmpty?[Expanded(child: Center(child: text)),feild_controls]:[Flexible(child: messages),feild_controls]  ,mainAxisAlignment: MainAxisAlignment.end,crossAxisAlignment: CrossAxisAlignment.start,);
+    BoxDecoration decoration = BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/final2.png'),fit: BoxFit.cover,),color: Colors.amber);
+    Container main_app = Container(decoration: decoration,child:controls ,padding: EdgeInsets.only(left:5, bottom:20, right:5));
+
+    return Scaffold(body: main_app,appBar: appbar);
 
   }
 
@@ -101,11 +77,39 @@ class _ChatScreenState extends State<ChatScreen2>  {
   void Add_messages(){
     if (_uservalue.text.trim().isNotEmpty){
       _messages.add(_uservalue.text);
-      setState(() {name = '';});
+      setState(() {});
       }
     _uservalue.clear();
   }
 
 
+  Row Messages_query (context, int index) {
+    final msg = _messages[index];
 
+    if ( _messages.isNotEmpty && index.isEven){
+      Text Mess = Text(msg,style: const TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w800));
+      Container bubble = Container(child:Mess,padding: const EdgeInsets.all(10),margin: const EdgeInsets.only(bottom: 6,top: 10),
+      decoration: BoxDecoration(color: Colors.white,borderRadius: const BorderRadius.all(Radius.circular(15))));
+      return Row(mainAxisAlignment: MainAxisAlignment.end,children: [bubble,const Icon(Icons.person_pin_outlined,color: Color(0xff77573d),size: 40)]);
+    }
+
+    else {
+      Text Mess = Text(msg,style: const TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w800));
+      Container bubble = Container(child:Mess,padding: const EdgeInsets.all(10),margin: const EdgeInsets.only(bottom: 6,top: 10),
+      decoration: BoxDecoration(color: Colors.white,borderRadius: const BorderRadius.all(Radius.circular(15))));
+      Container chatbot_icon = Container(child: Image.asset("assets/images/icon.png",width: 40,height: 40),decoration: BoxDecoration(color: Colors.white,borderRadius:BorderRadius.circular(20)),alignment: Alignment.center);
+      return  Row(children: [chatbot_icon,bubble],mainAxisAlignment: MainAxisAlignment.start,spacing: 5);
+    }
+
+  }
+
+
+ 
+    
+    
 }
+
+
+
+
+
