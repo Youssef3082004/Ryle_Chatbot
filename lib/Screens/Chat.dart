@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'rag_api.dart';
+import '../Backend/rag_api.dart';
 
 
 
@@ -17,6 +17,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen>  {
   final TextEditingController _uservalue = TextEditingController();
   List<String> _messages = [];
+  bool loading = false;
 
 
 
@@ -37,26 +38,27 @@ class _ChatScreenState extends State<ChatScreen>  {
   
 
   @override
-  Widget build(BuildContext context) {   
+  Widget build(BuildContext context) {
+    final Color _primaryColor = const Color(0xFF6D4C41); 
+    final Color _backgroundColor = const Color(0xFFFBF0E9);    
 
-
-
-    
     //! =================================================================== Appbar ==================================================
-    IconButton h = IconButton(onPressed: () => Navigator.pop(context),icon: Icon(Icons.arrow_back,size: 30,color: Color(0xffa3502b)));
-    AppBar appbar =  AppBar(actions: [Image.asset("assets/images/logo.png",width: 80,height: 80,)],leading: h,elevation: 0,backgroundColor: const Color(0xffe7c8ad),title: Text("Ryle Chatbot",style: TextStyle(fontSize: 30,color: Color(0xffa3502b))),centerTitle: true,shape: Border(bottom: BorderSide(color: Color(0xffa3502b),  width:3.0)));
+    // IconButton BackButton = IconButton(onPressed: () => Navigator.pop(context),icon: Icon(Icons.arrow_back,size: 30));
+    IconButton Arscreen = IconButton(onPressed: () => Navigator.pushNamed(context,"/arscreen"),icon: Icon(Icons.view_in_ar,size: 30));
+    AppBar appbar =  AppBar(backgroundColor: _primaryColor,foregroundColor: Colors.white, actions: [Image.asset("assets/images/logo.png")],leading: Arscreen,elevation: 0,title: Text("Ryle Chatbot",style: TextStyle(fontWeight: FontWeight.bold)),centerTitle: true);
 
     //! =================================================================== Bottuns ==================================================
-    IconButton add_button =  IconButton(onPressed: () => clear_messages(),icon: const Icon(Icons.delete, size: 40),color: const Color(0xFF77573E),);
+    IconButton add_button =  IconButton(onPressed: () => clear_messages(),icon: const Icon(Icons.delete, size: 40),color: _primaryColor,);
 
     IconButton send_button =  IconButton(onPressed: () => Add_messages(),icon: const Icon(Icons.send_rounded, size: 22),color: Colors.white,);
-    Container hala = Container(child: send_button,decoration: BoxDecoration(color: Color(0xFF77573E),borderRadius: BorderRadius.circular(180)),);
+    Container hala = Container(child: send_button,decoration: BoxDecoration(color: _primaryColor,borderRadius: BorderRadius.circular(180)),);
 
     //! =================================================================== Textfeild and Button ==================================================
 
-    TextField feild = TextField(controller: _uservalue,textAlign: TextAlign.center,textDirection: TextDirection.rtl,
+    TextField feild = TextField(controller: _uservalue,textAlign: TextAlign.center,textDirection: TextDirection.rtl,cursorColor: Color(0xFF77573E),
     decoration: const InputDecoration(fillColor: Color(0xfff8ede2),filled: true,hintText: 'Type Your Question...',
     enabledBorder: OutlineInputBorder(borderRadius:BorderRadius.all(Radius.circular(12.0)),borderSide: BorderSide(color: Color(0xFF77573E),width: 2.0) ),
+    focusedBorder: OutlineInputBorder(borderRadius:BorderRadius.all(Radius.circular(12.0)),borderSide: BorderSide(color: Color(0xFF77573E),width: 2.0) ),
     border: OutlineInputBorder(borderRadius:BorderRadius.all(Radius.circular(12.0)),borderSide: BorderSide(color: Color(0xFF77573E),width: 2.0) )),
     );
 
@@ -69,36 +71,66 @@ class _ChatScreenState extends State<ChatScreen>  {
     //! ============================================================= Middle Text ================================
     Text text =  Text("Let’s start our conversation!",style: TextStyle(fontSize: 25,color: Colors.black87,fontFamily: 'AGaramondPro',fontWeight: FontWeight.bold,));
 
+
+    Widget loadingIndicator = loading 
+        ? Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Row(spacing: 5, 
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: 40, height: 40,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
+                  child: Image.asset("assets/images/logo.png", width: 40, height: 40, fit: BoxFit.fitHeight),
+                ),
+                const SizedBox(
+                  width: 20, height: 20,
+                  child: CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF6D4C41)),
+                ),
+              ],
+            ),
+          )
+        : const SizedBox.shrink(); 
+
+
     //! ============================================================= Application Arc ================================
 
-    Column controls = Column(children: _messages.isEmpty?[Expanded(child: Center(child: text)),feild_controls]:[Flexible(child: messages),feild_controls]  ,mainAxisAlignment: MainAxisAlignment.end,crossAxisAlignment: CrossAxisAlignment.start,);
-    BoxDecoration decoration = BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/final2.png'),fit: BoxFit.cover,),color: Colors.amber);
-    Container main_app = Container(decoration: decoration,child:controls ,padding: EdgeInsets.only(left:5, bottom:20, right:5));
-
-    return Scaffold(body: main_app,appBar: appbar);
+    Column controls = Column(mainAxisAlignment: MainAxisAlignment.end,crossAxisAlignment: CrossAxisAlignment.start,children: [_messages.isEmpty ? Expanded(child: Center(child: text)) : Flexible(child: messages),loadingIndicator,feild_controls ],);
+    Container main_app = Container(child:controls ,padding: EdgeInsets.only(left:5, bottom:20, right:5),color: _backgroundColor,);
+    return Scaffold(body: main_app,appBar: appbar,);
 
   }
 
 
 
-  void Add_messages() async{
-    if (_uservalue.text.trim().isNotEmpty){
-      _messages.add(_uservalue.text);
-      setState(() {});
+ void Add_messages() async {
+    
+    if (_uservalue.text.trim().isEmpty) return;
 
-      if (await RagApi.hasInternet() == true){
-      final result = await RagApi.rag_response(question: _uservalue.text.trim());
+    final userText = _uservalue.text.trim();
+
+    setState(() {
+      _messages.add(userText);
+      loading = true; 
+      _uservalue.clear(); 
+    });
+
+    String result;
+
+    
+    if (await RagApi.hasInternet() == true) {
+      result = await RagApi.rag_response(question: userText);
+    } else {
+      result = 'oops! No response generated, Check your internet connection';
+    }
+
+    
+    if (!mounted) return; 
+    setState(() {
       _messages.add(result);
-      setState(() {});
-      }
-
-      else{
-        _messages.add('oops! No response generated, Check your internet connection');
-        setState(() {});
-      }
-
-      }
-    _uservalue.clear();
+      loading = false; 
+    });
   }
 
   void clear_messages(){
@@ -112,11 +144,11 @@ class _ChatScreenState extends State<ChatScreen>  {
   Row Messages_query (context, int index) {
     final msg = _messages[index];
 
-    final double width = MediaQuery.of(context).size.width; 
+    final double width = MediaQuery.of(context).size.width;
 
-
-
-    if ( msg == "oops! No response generated, Check your internet connection"){
+  
+      
+      if ( msg == "oops! No response generated, Check your internet connection"){
       Text Mess = Text(msg,style: const TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.w800));
       Container bubble = Container(child:Mess,padding: const EdgeInsets.all(10),margin: const EdgeInsets.only(bottom: 6,top: 10),width: width - 75,
       decoration: BoxDecoration(color: Colors.redAccent,borderRadius: const BorderRadius.all(Radius.circular(15))));
@@ -140,14 +172,12 @@ class _ChatScreenState extends State<ChatScreen>  {
       return  Row(children: [chatbot_icon,bubble],mainAxisAlignment: MainAxisAlignment.start,spacing: 5);
     }
 
+    
+    
+
   }
 
 
 
     
 }
-
-
-
-
-

@@ -1,12 +1,10 @@
+import 'package:chatbot_app/Screens/KingsSelection.dart';
 import 'package:flutter/material.dart';
-import 'welcome.dart';
-import 'chat.dart';
-import 'package:flutter_gemini/flutter_gemini.dart';
+import 'Screens/Welcome.dart';
+import 'Screens/Chat.dart';
 
-const apiKey = 'AIzaSyDiZVuBtz08mZQx7hMWjEkARCTKTFAAd8Y';
 
 void main() {
-  Gemini.init(apiKey: apiKey, enableDebugging: true);
   runApp(const MyApp());
 }
 
@@ -23,7 +21,11 @@ class MyApp extends StatelessWidget {
       theme: Animiation,
 
       initialRoute: '/',
-      routes: {'/': (context) => const WelcomeScreen(),'/chat': (context) => const ChatScreen()},
+      routes: {
+        '/': (context) => const WelcomeScreen(),
+        '/chat': (context) => const ChatScreen(),
+        '/arscreen': (context) => const KingsSelectionScreen()
+      },
     );
   }
 }
