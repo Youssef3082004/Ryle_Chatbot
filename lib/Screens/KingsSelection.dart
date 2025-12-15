@@ -7,19 +7,20 @@ class King {
   final String name;
   final String imageName;
   final String ArModelLink;
+  final String SoundLink;
 
-  King({required this.name, required this.imageName, required this.ArModelLink});
+  King({required this.name, required this.imageName, required this.ArModelLink,required this.SoundLink});
 }
 
 final List<King> pharaohs = [
-  King(name: "Narmer", imageName: "narmer.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/narmer.glb"),
-  King(name: "Akhenaten", imageName: "Akhenaten.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/Aken_character_unity.glb"),
-  King(name: "Ramesses II", imageName: "ram 11.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/Ramsses_Character.glb"),
-  King(name: "Tutankhamun", imageName: "tutankhamun.jpeg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/Tutankhamun.glb"),
-  King(name: "Amenhotep III", imageName: "Amenhotep.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/Amenhotep.glb"),
-  King(name: "Khufu", imageName: "Khufu.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/Khufu%20Char.glb"),
-  King(name: "Cleopatra VII", imageName: "Cleopatra VII.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/Cleoptra%20mo.glb"),
-
+  King(name: "Narmer", imageName: "narmer.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/narmer.glb",SoundLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/sound.wav"),
+  King(name: "Akhenaten", imageName: "Akhenaten.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/Aken_character_unity.glb",SoundLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/sound.wav"),
+  King(name: "Ramesses II", imageName: "ram 11.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/Ramsses_Character.gltf",SoundLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/sound.wav"),
+  King(name: "Tutankhamun", imageName: "tutankhamun.jpeg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/Tutankhamun.glb",SoundLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/sound.wav"),
+  King(name: "Amenhotep III", imageName: "Amenhotep.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/Amenhotep.glb",SoundLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/sound.wav"),
+  King(name: "Khufu", imageName: "Khufu.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/Khufu%20Char.glb",SoundLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/sound.wav"),
+  King(name: "Cleopatra VII", imageName: "Cleopatra VII.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/Cleoptra%20mo.glb",SoundLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/sound.wav"),
+  King(name: "RobotExpressive", imageName: "Cleopatra VII.jpg", ArModelLink: "https://modelviewer.dev/shared-assets/models/RobotExpressive.glb",SoundLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/AQMpheoT3s4A-Kl2dogzsUfV4J4y8VgzrGO6argG4EAjQQ6Wc6UnaTxfx1gZ05TBX_lrQMI6ejTEa_qhCXM6HOg7vNLtU1-4Ba2-HqQ.mp3"),
 ];
 
 
@@ -61,7 +62,7 @@ class KingsSelectionScreen extends StatelessWidget {
                 contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
                 leading: CircleAvatar(
                   radius: 30,
-                  backgroundColor: _primaryColor.withOpacity(0.1),
+                  backgroundColor: _primaryColor.withValues(alpha: 0.1),
                   child: ClipOval(
                     child: Image.asset(
                       'assets/images/${king.imageName}',
@@ -86,10 +87,10 @@ class KingsSelectionScreen extends StatelessWidget {
                 ),
                 trailing: Icon(
                   Icons.arrow_forward_ios,
-                  color: _primaryColor.withOpacity(0.7),
+                  color: _primaryColor.withValues(alpha: 0.7),
                   size: 18,
                 ),
-                onTap: ()  => Navigator.push(context, MaterialPageRoute(builder: (context) => ArScreen(Kingname: king.name,KingModelLink: king.ArModelLink,) ))
+                onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => ArScreen(Kingname: king.name,KingModelLink: king.ArModelLink,SoundLink: king.SoundLink,) ))
                   
                   
                   
