@@ -13,14 +13,12 @@ class King {
 }
 
 final List<King> pharaohs = [
-  King(name: "Narmer", imageName: "narmer.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/narmer.glb",SoundLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/sound.wav"),
-  King(name: "Akhenaten", imageName: "Akhenaten.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/Aken_character_unity.glb",SoundLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/sound.wav"),
-  King(name: "Ramesses II", imageName: "ram 11.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/Ramsses_Character.gltf",SoundLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/sound.wav"),
-  King(name: "Tutankhamun", imageName: "tutankhamun.jpeg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/Tutankhamun.glb",SoundLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/sound.wav"),
-  King(name: "Amenhotep III", imageName: "Amenhotep.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/Amenhotep.glb",SoundLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/sound.wav"),
-  King(name: "Khufu", imageName: "Khufu.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/Khufu%20Char.glb",SoundLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/sound.wav"),
-  King(name: "Cleopatra VII", imageName: "Cleopatra VII.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/Cleoptra%20mo.glb",SoundLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/sound.wav"),
-  King(name: "RobotExpressive", imageName: "Cleopatra VII.jpg", ArModelLink: "https://modelviewer.dev/shared-assets/models/RobotExpressive.glb",SoundLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/AQMpheoT3s4A-Kl2dogzsUfV4J4y8VgzrGO6argG4EAjQQ6Wc6UnaTxfx1gZ05TBX_lrQMI6ejTEa_qhCXM6HOg7vNLtU1-4Ba2-HqQ.mp3"),
+  King(name: "Narmer", imageName: "narmer.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/3DModels/narmer.glb",SoundLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/EnglishSounds/sound.wav"),
+  King(name: "Akhenaten", imageName: "Akhenaten.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/3DModels/Akhenaten.glb",SoundLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/EnglishSounds/sound.wav"),
+  King(name: "Ramesses II", imageName: "ram 11.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/3DModels/Ramsses.glb",SoundLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/EnglishSounds/sound.wav"),
+  King(name: "Tutankhamun", imageName: "tutankhamun.jpeg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/3DModels/Tutankhamun.glb",SoundLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/EnglishSounds/sound.wav"),
+  King(name: "Cleopatra VII", imageName: "Cleopatra VII.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/3DModels/Cleoptra.glb",SoundLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/EnglishSounds/sound.wav"),
+  King(name: "RobotExpressive", imageName: "Cleopatra VII.jpg", ArModelLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/3DModels/RobotExpressive.glb",SoundLink: "https://wsestolbnlfafbbhelee.supabase.co/storage/v1/object/public/3D/EnglishSounds/Quran.mp3"),
 ];
 
 

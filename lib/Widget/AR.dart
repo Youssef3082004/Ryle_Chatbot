@@ -25,7 +25,8 @@ class ArScreen extends StatelessWidget {
           autoRotate: false,
           disableZoom: true,   
           innerModelViewerHtml: """   
-    <style>
+  <style>
+      /* 1. Stop Button Style */
       .stop-btn {
         position: absolute;
         bottom: 20px;
@@ -44,39 +45,33 @@ class ArScreen extends StatelessWidget {
         pointer-events: none;
       }
       
-      .visible {
-        opacity: 1; 
-        pointer-events: auto;
-      }
+      .visible { opacity: 1; pointer-events: auto; }
 
-      /* 2. Style the NEW Hint Message */
+      /* 2. Hint Box Style */
       .hint-box {
         position: absolute;
-        top: 20px;            /* Position at top center */
+        top: 20px;
         left: 50%;
         transform: translateX(-50%);
-        background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black */
+        background-color: rgba(0, 0, 0, 0.6);
         color: white;
         padding: 10px 20px;
         border-radius: 30px;
         font-family: sans-serif;
-        font-size: 14px;
-        pointer-events: none; /* Allows clicks to pass through to the model */
+        font-size: 10px;
+        pointer-events: none; 
         transition: opacity 0.3s;
         display: flex;
         align-items: center;
         gap: 8px;
         z-index: 998;
-        opacity: 1; /* Visible by default */
-        /* vvvv ADD OR CHANGE THESE LINES vvvv */
-        width: max-content;   /* Option A: Fits the text exactly (Default behavior) */
-        /* width: 250px;      /* Option B: Fixed width */
-        /* max-width: 80%;    /* Option C: Responsive (Good for mobile) */
-        /* text-align: center; /* Centers text if width is fixed */
-        /* justify-content: center; /* Centers content flex-wise */
+        opacity: 1;   
+        max-width: 80%;    
+        text-align: center;
+        justify-content: center; 
       }
       
-      /* Simple pulsing animation to catch attention */
+      /* 3. RESTORED: Pulse Animation */
       @keyframes pulse {
         0% { transform: translateX(-50%) scale(1); }
         50% { transform: translateX(-50%) scale(1.05); }
@@ -86,11 +81,8 @@ class ArScreen extends StatelessWidget {
       .hint-anim {
         animation: pulse 2s infinite;
       }
-
-      /* Class to hide elements */
-      .hidden {
-        opacity: 0;
-      }
+      
+      .hidden { opacity: 0; }
     </style>
 
     <audio id="kebab-sound" src="${SoundLink}"></audio>
@@ -107,36 +99,42 @@ class ArScreen extends StatelessWidget {
       const hintMsg = document.getElementById('interaction-hint');
       const modelViewer = document.querySelector('model-viewer');
 
-      // 1. PLAY: Hide Hint, Show Stop Button
+      // Helper function to stop everything
+      function stopEverything() {
+        audio.pause();
+        audio.currentTime = 0;
+        modelViewer.pause();
+        modelViewer.currentTime = 0;
+        stopBtn.classList.remove('visible');
+        hintMsg.classList.remove('hidden');
+      }
+
+      // 1. PLAY
       modelViewer.addEventListener('click', () => {
         audio.play();
         modelViewer.play(); 
-        
-        stopBtn.classList.add('visible');      // Show Stop button
-        hintMsg.classList.add('hidden');       // Hide Hint
+        stopBtn.classList.add('visible');
+        hintMsg.classList.add('hidden');
       });
 
-      // 2. STOP BUTTON: Show Hint, Hide Stop Button
+      // 2. STOP BUTTON
       stopBtn.addEventListener('click', (event) => {
         event.stopPropagation(); 
-        
-        audio.pause();
-        audio.currentTime = 0; 
-        modelViewer.pause();
-        modelViewer.currentTime = 0; 
-        
-        stopBtn.classList.remove('visible');   // Hide Stop button
-        hintMsg.classList.remove('hidden');    // Show Hint again
+        stopEverything();
       });
 
-      // 3. AUTO-STOP: Show Hint, Hide Stop Button
+      // 3. AUTO-STOP (When song ends)
       audio.addEventListener('ended', () => {
-        modelViewer.pause();
-        modelViewer.currentTime = 0; 
-        
-        stopBtn.classList.remove('visible');   // Hide Stop button
-        hintMsg.classList.remove('hidden');    // Show Hint again
+        stopEverything();
       });
+
+      // 4. AR FIX: Stop sound when leaving the app view
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+           stopEverything();
+        }
+      });
+      
     </script>
           """,
         ),
