@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
+import 'package:chatbot_app/Widget/AR_Sound.dart';
 
 
 class ArScreen extends StatelessWidget {
@@ -12,19 +13,23 @@ class ArScreen extends StatelessWidget {
   Widget build(BuildContext context) {
   final Color _primaryColor = const Color(0xFF6D4C41); 
   final Color _backgroundColor = const Color(0xFFFBF0E9); 
+  
+  IconButton ArButton = IconButton(onPressed: ()=>ARScreen.launchArIntent(KingModelLink: KingModelLink, SoundLink: SoundLink) , icon: Icon(Icons.view_in_ar,size: 30));
 
-    return Scaffold(
-        appBar: AppBar(title: Text(Kingname,style: TextStyle(fontWeight: FontWeight.bold),),foregroundColor: Colors.white,centerTitle: true,backgroundColor: _primaryColor,),
-        body: ModelViewer(
-          backgroundColor: _backgroundColor,
-          src: "${KingModelLink}?sound=${SoundLink}",
-          autoPlay: false,          
-          animationName: null,
-          alt: 'A 3D model of an astronaut',
-          ar: true,
-          autoRotate: false,
-          disableZoom: true,   
-          innerModelViewerHtml: """   
+  AppBar ArAppbar = AppBar(actions: [ArButton],title: Text(Kingname,style: TextStyle(fontWeight: FontWeight.bold),),foregroundColor: Colors.white,centerTitle: true,backgroundColor: _primaryColor,);
+
+    return Scaffold(appBar: ArAppbar,
+        body: 
+            ModelViewer(
+              backgroundColor: _backgroundColor,
+              src: "${KingModelLink}?sound=${SoundLink}",
+              autoPlay: false,          
+              animationName: null,
+              alt: 'A 3D model of an astronaut',
+              ar: false,
+              autoRotate: false,
+              disableZoom: true,   
+              innerModelViewerHtml: """   
   <style>
       /* 1. Stop Button Style */
       .stop-btn {
@@ -137,7 +142,10 @@ class ArScreen extends StatelessWidget {
       
     </script>
           """,
-        ),
-      );
+            ),
+    
+
+        );
+      
   }
 }

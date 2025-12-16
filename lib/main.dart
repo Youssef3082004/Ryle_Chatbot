@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Ryla Chatbot',
+      title: 'Ryla',
       theme: Animiation,
 
       initialRoute: '/',

@@ -44,7 +44,7 @@ class _ChatScreenState extends State<ChatScreen>  {
 
     //! =================================================================== Appbar ==================================================
     // IconButton BackButton = IconButton(onPressed: () => Navigator.pop(context),icon: Icon(Icons.arrow_back,size: 30));
-    IconButton Arscreen = IconButton(onPressed: () => Navigator.pushNamed(context,"/arscreen"),icon: Icon(Icons.view_in_ar,size: 30));
+    IconButton Arscreen = IconButton(onPressed: () => Navigator.pushNamed(context,"/arscreen"),icon: Icon(Icons.threed_rotation,size: 35));
     AppBar appbar =  AppBar(backgroundColor: _primaryColor,foregroundColor: Colors.white, actions: [Image.asset("assets/images/logo.png")],leading: Arscreen,elevation: 0,title: Text("Ryle Chatbot",style: TextStyle(fontWeight: FontWeight.bold)),centerTitle: true);
 
     //! =================================================================== Bottuns ==================================================

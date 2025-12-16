@@ -35,6 +35,7 @@ dependencies:
   flutter_native_splash: ^2.4.6
   model_viewer_plus: ^1.10.0
   audioplayers: ^6.5.1 
+  url_launcher: ^6.3.2
   
 
 flutter_native_splash:
